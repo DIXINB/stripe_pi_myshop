@@ -1,0 +1,7 @@
+asgiref==3.5.2
+sqlparse==0.4.2
+Pillow==9.2.0
+flower==1.2.0
+celery==5.2.7
+stripe==4.0.2
+WeasyPrint==56.1
