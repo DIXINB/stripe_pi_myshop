@@ -2,12 +2,12 @@
 
     {% block content %}
      <script src="https://js.stripe.com/v3/"></script>
-    <div>
+    <div style="padding:2em">
       <br><br>
       <h2> Checkout </h2>
       <br><br>
       <table style="width:100%">
-        <tr style=" font-size: 20px">
+        <tr style="font-size: 20px">
           <th>Name</th>
           <th>Price</th>
         </tr>
@@ -16,10 +16,8 @@
         <tr>
           <td>{{ item.product }}</td>
           <td>{{ item.get_cost }}</td>
-<!--		  <td>${{ c.product_price }}</td>  -->
         </tr>
         {% endfor %}
-
         <tr>
           <td style="padding-top:30px">Total</td>
           <td>${{ total }}</td>
@@ -37,8 +35,8 @@
                   </div>
                   <div class="sr-field-error" id="card-errors" role="alert"></div>
                   <button id="submit">
-                    <div class="spinner hidden" id="spinner"> </div>
-		    <span id="button-text">Pay</span><span id="order-amount"></span>
+               <div class="spinner hidden" id="spinner"></div> 
+	       <span id="button-text">Pay</span><span id="order-amount"></span>
                   </button>
               </form>
               <div class="sr-result hidden">
@@ -49,14 +47,27 @@
               </div>
             </div>
           </div>
-
-      </form>	
-
-    <style>
+        </div>
+      </div>
+   </form>
+  </div>
+    <style>      
       /**
      * The CSS shown here will not be introduced in the Quickstart guide, but shows
      * how you can use CSS to style your Element's container.
      */
+    :root {
+  --body-color: rgb(247, 250, 252);
+  --button-color: rgb(30, 166, 114);
+  --accent-color: #0a721b;
+  --link-color: #ffffff;
+  --font-color: rgb(105, 115, 134);
+  --body-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 6px;
+  --form-width: 400px;
+}
+    
+    
     .StripeElement {
       box-sizing: border-box;
 
@@ -88,30 +99,31 @@
         display: none;
     }
 
+   
     .spinner,
     .spinner:before,
     .spinner:after {
-      border-radius: 50%;
-    }
+  border-radius: 50%;
+    }      
     .spinner {
-  color: #ffffff;
-  font-size: 22px;
-  text-indent: -99999px;
-  margin: 0px auto;
-  position: relative;
-  width: 20px;
-  height: 20px;
-  box-shadow: inset 0 0 0 2px;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-}
-.spinner:before,
-.spinner:after {
-  position: absolute;
-  content: "";
-}
-.spinner:before {
+    color: #ffffff;
+    font-size: 22px;
+    text-indent: -99999px;
+    margin: 0px auto;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 0 0 0 2px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    }
+   .spinner:before,
+   .spinner:after {
+   position: absolute;
+   content: "";
+   }   
+  .spinner:before {
   width: 10.4px;
   height: 20.4px;
   background: var(--accent-color);
@@ -122,8 +134,8 @@
   transform-origin: 10.4px 10.2px;
   -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
-}
-.spinner:after {
+  }
+  .spinner:after {
   width: 10.4px;
   height: 10.2px;
   background: var(--accent-color);
@@ -134,8 +146,18 @@
   transform-origin: 0px 10.2px;
   -webkit-animation: loading 2s infinite ease;
   animation: loading 2s infinite ease;
-}
-@-webkit-keyframes loading {
+ }
+  @-webkit-keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+ }
+ @keyframes loading {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -145,20 +167,10 @@
     transform: rotate(360deg);
   }
 }
-@keyframes loading {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-    #submit:hover {
+
+        #submit:hover {
       filter: contrast(120%);
-    }
-	
+    }  	
 	#submit {
       font-feature-settings: "pnum";
       --body-color: #f7fafc;
@@ -200,11 +212,28 @@
       width: 100%;
       background: var(--button-color);
     }
+
+    .sr-result {
+  height: 44px;
+  -webkit-transition: height 1s ease;
+  -moz-transition: height 1s ease;
+  -o-transition: height 1s ease;
+  transition: height 1s ease;
+  color: var(--font-color);
+  overflow: auto;
+}
+.sr-result code {
+  overflow: scroll;
+}
+.sr-result.expand {
+  height: 350px;
+}
+
+
     </style>
 
     <script type="text/javascript">
     // A reference to Stripe.js
-
     const orderData = {
       currency: "usd"      
     };
@@ -221,11 +250,11 @@ document.getElementById("submit").disabled = true;
 
   fetch("http://127.0.0.1:8000/payment/create-payment-intent/", options)
 
-    .then(function(res){responseClone=res.clone(); return res.json();})
-    .then (function(data){
+     .then(function(res){responseClone=res.clone(); return res.json();})
+     .then (function(data){
        return setupElements(data);
       })
-    .then(function({stripe,card,clientSecret}) {
+     .then(function({stripe,card,clientSecret}) {
         document.getElementById("submit").disabled=false;           
 		// Handle form submission.
          var form = document.getElementById("payment-form");
@@ -237,7 +266,7 @@ document.getElementById("submit").disabled = true;
 
   // Set up Stripe.js and Elements to use in checkout form
   var setupElements = function(data) {
-      stripe = Stripe(data.publishableKey);       
+      stripe = Stripe(data.publishableKey);               
       var elements = stripe.elements();
       var style = {
         base: {
@@ -256,14 +285,13 @@ document.getElementById("submit").disabled = true;
       };
 
       var card = elements.create("card", { style : style});
-      card.mount("#card-element");
-   
+      card.mount("#card-element");  
       return {
         stripe: stripe,
         card: card,
         clientSecret: data.clientSecret
       };
-	};
+   };
 	
 	/*
      * Calls stripe.confirmCardPayment which creates a pop-up modal to
@@ -311,8 +339,8 @@ document.getElementById("submit").disabled = true;
         changeLoadingState(false);
         });
       };
-	
-	var showError = function(errorMsgText) {
+
+    var showError = function(errorMsgText) {
       changeLoadingState(false);
       var errorMsg = document.querySelector(".sr-field-error");
       errorMsg.textContent = errorMsgText;
@@ -333,6 +361,5 @@ document.getElementById("submit").disabled = true;
         document.querySelector("#button-text").classList.remove("hidden");
       }
     }; 
-
      </script>
     {% endblock %}
