@@ -5,9 +5,9 @@ create_env () {
 }
 export -f create_env
 gnome-terminal --tab -- bash -c "create_env; cd stripe_pi_myshop; cd myshop; cd myshop; python3 manage.py runserver;exec bash -i" 
-gnome-terminal --tab -- bash -c "create_env; echo XXXX | sudo -S docker run --rm --name rabbitmq -p 5673:5673 -p 15672:15672 rabbitmq:management;exec bash -i" 
+gnome-terminal --tab -- bash -c "create_env; echo 1111 | sudo -S docker run --rm --name rabbitmq -p 5673:5673 -p 15672:15672 rabbitmq:management;exec bash -i" 
 gnome-terminal --tab -- bash -c "create_env; cd stripe_pi_myshop; cd myshop; cd myshop; celery -A myshop worker -l info;exec bash -i"
 gnome-terminal --tab -- bash -c "create_env; cd stripe_pi_myshop; cd myshop; cd stripe;echo ne '\n' | ./stripe listen --forward-to localhost:8000/payment/webhook/;exec bash -i"
-#chmod +x e32 
+
 google-chrome http://127.0.0.1:8000
  
