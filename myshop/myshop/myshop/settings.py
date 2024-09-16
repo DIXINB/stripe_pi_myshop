@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -119,7 +119,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+#STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS=(os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -132,7 +133,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 CART_SESSION_ID = 'cart'
-
+STRIPE_SECRET_KEY='sk_test_51PtaYl09rjmOtcKnijFJN3ZPjImK0zx0PayIt3RU3Yh5sV1rZkXRRTxXlI0Zgsf7yLfecX6u9TMzbXLeu2uXe1U500eg4D5i4d'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
