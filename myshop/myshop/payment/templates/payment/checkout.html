@@ -2,6 +2,8 @@
 
     {% block content %}
      <script src="https://js.stripe.com/v3/"></script>
+      {% load static %}
+    
     <div style="padding:2em">
       <br><br>
       <h2> Checkout </h2>
@@ -40,16 +42,18 @@
                   </button>
               </form>
               <div class="sr-result hidden">
+               <img src="{%static 'img/book1.png' %}"> 
                 <p>Payment completed<br></p>
                 <pre>
-                  <code></code>
+                  <code>Платеж завершен. Квитанцию получите
+                        на электронную почту. </code>
                 </pre>
               </div>
             </div>
           </div>
         </div>
       </div>
-   </form>
+ </form> 
   </div>
     <style>      
       /**
@@ -318,7 +322,7 @@ document.getElementById("submit").disabled = true;
           }
         });
     };
-    
+        
     	/* ------- Post-payment helpers ------- */
 
     /* Shows a success / error message when the payment is complete */
@@ -326,16 +330,16 @@ document.getElementById("submit").disabled = true;
       // Just for the purpose of the sample, show the PaymentIntent response object
       stripe.retrievePaymentIntent(clientSecret).then(function(response) {
         var paymentIntent = response.paymentIntent;
-        var paymentIntentJson = JSON.stringify(paymentIntent, null, 2);
-                
-        document.querySelector(".sr-payment-form").classList.add("hidden");
-        document.querySelector("pre").textcontent = paymentIntentJson;    
-
+ /*     var paymentIntentJson = JSON.stringify(paymentIntent, null, 2);*/               
+ /*     document.querySelector("code").textContent = paymentIntent.id; */
+ /*       console.log(paymentIntentJson);                              */
+        document.querySelector(".sr-payment-form").classList.add("hidden");                        
         document.querySelector(".sr-result").classList.remove("hidden");
+        
         setTimeout(function() {
           document.querySelector(".sr-result").classList.add("expand");
         }, 200);
-
+        
         changeLoadingState(false);
         });
       };

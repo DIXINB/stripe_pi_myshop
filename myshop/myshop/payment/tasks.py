@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
 from orders.models import Order
-
+from django.http import HttpResponse
 
 @shared_task
 def payment_completed(order_id):
@@ -31,5 +31,6 @@ def payment_completed(order_id):
     email.attach(f'order_{order.id}.pdf',
                  out.getvalue(),
                  'application/pdf')
+   
     # send e-mail
     email.send()
